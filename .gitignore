@@ -1,0 +1,8 @@
+json*
+__pycache__/
+.idea/workspace.xml
+.idea/*
+*.pyc
+*.xml
+plots/
+*.png
