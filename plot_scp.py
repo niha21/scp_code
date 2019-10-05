@@ -5,8 +5,8 @@ import os
 import json
 
 # global variables:
-dataset_names = ['Housing', 'Wine', 'PD', 'PowerPlant', 'Energy', 'Concrete',
-                     'GridStability', 'SuperConduct', 'CBM', 'Game']
+dataset_names = ['SB', 'BC', 'Phishing', 'Cover', 'Adult', 'Tic',
+                     'Aus', 'Monk-1', 'Monk-2', 'Bank']
 
 dataset_names = ['BC']
 
@@ -36,22 +36,33 @@ def plot_same_data():
         source1 = results["source1"]
         source2 = results["source2"]
         source3 = results["source3"]
-        SCP = results["SCP"]
+        SCP = results["SCP_OF"]
 
-        pt.add_row([dataset_name, round(np.median(source1), 3),
-                    round(np.median(source2), 3),
-                    round(np.median(source3), 3),
-                    round(np.median(SCP), 3)])
+        pt.add_row([dataset_name, np.round(np.median(source1), 3),
+                    np.round(np.median(source2), 3),
+                    np.round(np.median(source3), 3),
+                    np.round(np.median(SCP), 3)])
 
         lin_list.append(source1)
         rbf_list.append(source3)
 
-        lin_icp.append(round(np.median(source1), 3))
-        rf_icp.append(round(np.median(source2), 3))
-        rbf_icp.append(round(np.median(source3), 3))
-        same_data_scp.append(round(np.median(SCP), 3))
+        lin_icp.append(np.round(np.median(source1), 3))
+        rf_icp.append(np.round(np.median(source2), 3))
+        rbf_icp.append(np.round(np.median(source3), 3))
+        same_data_scp.append(np.round(np.median(SCP), 3))
 
-    # print(pt)
+        plt.xlim([0, 5])
+        boxPlotLabels = ['SVM-ICP$_p$', 'RF-ICP$_p$', 'RBF-SVM-ICP$_p$', 'SCP']
+        data = np.column_stack((source1, source2, source3, SCP))
+        plt.boxplot(data, labels=boxPlotLabels, patch_artist=True)
+        plt.ylabel("Efficiency")
+
+        if not os.path.exists('plots/' + model):
+            os.makedirs('plots/' + model)
+        plt.savefig('plots/' + model + "/" + dataset_name)
+        plt.clf()
+
+    print(pt)
 
 
 def plot_diff_models():
@@ -70,10 +81,10 @@ def plot_diff_models():
 
         SCP = results["SCP_OF"]
 
-        pt.add_row([dataset_name, round(np.median(source1), 3),
-                    round(np.median(source2), 3),
-                    round(np.median(source3), 3),
-                    round(np.median(SCP), 3)])
+        pt.add_row([dataset_name, np.round(np.median(source1), 3),
+                    np.round(np.median(source2), 3),
+                    np.round(np.median(source3), 3),
+                    np.round(np.median(SCP), 3)])
 
         plt.xlim([0, 5])
         boxPlotLabels = ['SVM-ICP$_p$', 'RF-ICP$_p$', 'RBF-SVM-ICP$_p$', 'SCP']
@@ -106,8 +117,8 @@ def plot_same_model_linear():
         source2 = results["source2"]
         source3 = results["source3"]
 
-        min_index = np.argmin([round(np.median(source1), 3), round(np.median(source2), 3),
-                               round(np.median(source3), 3)])
+        min_index = np.argmin([np.round(np.median(source1), 3), np.round(np.median(source2), 3),
+                               np.round(np.median(source3), 3)])
         if min_index == 0:
             icp_p = source1
         elif min_index == 1:
@@ -115,13 +126,13 @@ def plot_same_model_linear():
         else:
             icp_p = source3
 
-        SCP = results["SCP"]
+        SCP = results["SCP_OF"]
 
         pt.field_names = ["Dataset", "ICP_p", "ICP", "SCP"]
         pt.add_row([dataset_name,
-                    round(np.median(icp_p), 3),
+                    np.round(np.median(icp_p), 3),
                     lin_icp[indx_dataset],
-                    round(np.median(SCP), 3)])
+                    np.round(np.median(SCP), 3)])
 
         plt.xlim([0, 4])
         boxPlotLabels = ["ICP_p", "ICP", "SCP"]
@@ -153,8 +164,8 @@ def plot_same_model_nonlinear():
         source2 = results["source2"]
         source3 = results["source3"]
 
-        min_index = np.argmin([round(np.median(source1), 3), round(np.median(source2), 3),
-                               round(np.median(source3), 3)])
+        min_index = np.argmin([np.round(np.median(source1), 3), np.round(np.median(source2), 3),
+                               np.round(np.median(source3), 3)])
         if min_index == 0:
             icp_p = source1
         elif min_index == 1:
@@ -162,12 +173,12 @@ def plot_same_model_nonlinear():
         else:
             icp_p = source3
 
-        SCP = results["SCP"]
+        SCP = results["SCP_OF"]
         pt.field_names = ["Dataset", "ICP_p", "ICP", "SCP"]
         pt.add_row([dataset_name,
-                    round(np.median(icp_p), 3),
+                    np.round(np.median(icp_p), 3),
                     rbf_icp[indx_dataset],
-                    round(np.median(SCP), 3)])
+                    np.round(np.median(SCP), 3)])
 
         plt.xlim([0, 4])
         boxPlotLabels = ["ICP_p", "ICP", "SCP"]
@@ -184,7 +195,7 @@ def plot_same_model_nonlinear():
     print(pt)
 
 
-def plot_same_data_acp():
+def plot_same_data_ccp():
     model = 'same_data'
     pt = PrettyTable()
     pt.field_names = ["Dataset", "SVM-ICP", "RF-ICP", "RBF-SVM-ICP", "SCP",
@@ -199,32 +210,32 @@ def plot_same_data_acp():
         source1 = results["source1"]
         source2 = results["source2"]
         source3 = results["source3"]
-        SCP = results["SCP"]
+        SCP = results["SCP_OF"]
 
-        file_name = "json_acp/" + dataset_name + "linear_svr.json"
+        file_name = "json_ccp/" + dataset_name + "linear_svm.json"
         with open(file_name, 'r') as fh:
             results = json.loads(fh.read())
 
-        acp_lin = results
+        ccp_lin = results
 
-        file_name = "json_acp/" + dataset_name + "rf.json"
+        file_name = "json_ccp/" + dataset_name + "RF.json"
         with open(file_name, 'r') as fh:
             results = json.loads(fh.read())
-        acp_rf = results
+        ccp_rf = results
 
-        file_name = "json_acp/" + dataset_name + "svr.json"
+        file_name = "json_ccp/" + dataset_name + "svm.json"
         with open(file_name, 'r') as fh:
             results = json.loads(fh.read())
-        acp_rbf = results
+        ccp_rbf = results
 
         pt.add_row([dataset_name,
                     lin_icp[indx_dataset],
                     rf_icp[indx_dataset],
                     rbf_icp[indx_dataset],
                     same_data_scp[indx_dataset],
-                    round(np.median(acp_lin), 3),
-                    round(np.median(acp_rf), 3),
-                    round(np.median(acp_rbf), 3)
+                    np.round(np.median(ccp_lin), 3),
+                    np.round(np.median(ccp_rf), 3),
+                    np.round(np.median(ccp_rbf), 3)
                     ])
         indx_dataset += 1
         plt.figure(figsize=(8, 4))
@@ -233,7 +244,7 @@ def plot_same_data_acp():
         boxPlotLabels = ['SVM-ICP', 'RF-ICP', 'RBF-SVM-ICP', 'SCP',
                          'SVM-CCP', 'RF-CCP    ', 'RBF-SVM-CCP']
         data = np.column_stack((source1, source2, source3, SCP,
-                                acp_lin, acp_rf, acp_rbf))
+                                ccp_lin, ccp_rf, ccp_rbf))
         plt.boxplot(data, labels=boxPlotLabels, patch_artist=True)
         plt.ylabel("Efficiency")
 
@@ -245,10 +256,13 @@ def plot_same_data_acp():
     print(pt)
 
 
-print("diff models")
-plot_diff_models()
-
+#print("diff models")
+#plot_diff_models()
 #plot_same_data()
+#plot_same_model_linear()
+#plot_same_model_nonlinear()
+plot_same_data()
+plot_same_data_ccp()
 '''
 print("diff models")
 plot_diff_models()
@@ -258,4 +272,4 @@ print("same models non-lin")
 plot_same_model_nonlinear()
 '''
 print("same data")
-#plot_same_data_acp()
+#plot_same_data_ccp()

@@ -270,10 +270,10 @@ def load_monks2_data():
 
 
 if __name__ == '__main__':
-    x, y = load_spambase_data()
+    #x, y = load_spambase_data()
     #x, y = load_breast_cancer_data()
     #x, y = load_Phishing_dataset()
-    #x, y = load_covertype_dataset()
+    x, y = load_covertype_dataset()
     #x, y = load_adult_dataset()
     #x, y = load_tic_tac_toe_dataset()
     #x, y = load_australian_dataset()
@@ -284,5 +284,6 @@ if __name__ == '__main__':
 
     print(len(y[y==0]))
     print(len(y[y == 1]))
+    print(y[1:100])
 
 

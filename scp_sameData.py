@@ -4,20 +4,20 @@
  three different methods
 """
 from prettytable import PrettyTable
-from dataset_preprocessing import *
 from sklearn.model_selection import train_test_split
 import numpy as np
 import icp as icp
-from perf_measure import pValues2PerfMetrics
+import perf_measure as pm
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from collections import OrderedDict
+
 
 x = PrettyTable()
 x.field_names = ["Dataset", "SVR-ICP", "RF-ICP", "RBF-SVR-ICP", 'SCP']
 epsilon = 0.1
 iterate = 10
 
-methods = ["linear_svr", "rf", "svr"]
+
 
 def synergyCP(X, y, methods = None, path = None):
     n_source = len(methods)
@@ -41,8 +41,9 @@ def synergyCP(X, y, methods = None, path = None):
         X_train, X_calib, y_train, y_calib \
             = train_test_split(X_train, y_train, test_size=0.3, random_state=i)
 
-        meanCalibConfScore = np.zeros(len(y_calib))
-        meanTestPred = np.zeros(len(y_test))
+        n_labels = len(np.unique(y_train))
+        meanCalibPredProb = np.zeros((len(y_calib), n_labels))
+        meanTestPredProb = np.zeros((len(y_test), n_labels))
 
         for indexSrc in range(n_source):
             sourceData = X_train
@@ -92,9 +93,10 @@ if __name__ == '__main__':
     epsilon = 0.1
     iteration = 10
     nrSources = 3
-    methods = ['svm'] * nrSources
 
-    dataset_names = ['SB', 'BC', 'Phishing', 'Cover', 'Adult', 'Tic',
+    methods = ["linear_svm", "RF", "svm"]
+
+    dataset_names = ['SB', 'BC', 'Phishing', 'Adult', 'Tic',
                      'Aus', 'Monk-1', 'Monk-2', 'Bank']
 
     load_functions = OrderedDict()
@@ -109,15 +111,15 @@ if __name__ == '__main__':
     load_functions["Monk-2"] = data.load_monks2_data
     load_functions["Bank"] = data.load_bank_dataset
 
-    dataset_names = ['BC']
+    #dataset_names = ['Cover']
 
     for dataset_name in dataset_names:
         X, y = load_functions[dataset_name]()
 
-        if not os.path.exists('json_sameModel_linear'):
-            os.makedirs('json_sameModel_linear')
+        if not os.path.exists('json_same_data'):
+            os.makedirs('json_same_data')
 
-        file_name = "json_sameModel_linear/" + dataset_name + ".json"
+        file_name = "json_same_data/" + dataset_name + ".json"
 
         print(dataset_name)
         synergyCP(X, y, methods=methods, path=file_name)

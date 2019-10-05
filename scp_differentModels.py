@@ -13,10 +13,11 @@ import os
 epsilon = 0.1
 iteration = 10
 nrSources = 3
-methods = ['linear_svm', 'svm', 'RF']
+methods = ['linear_svm', 'RF', 'svm']
 
-dataset_names = ['Housing', 'Wine', 'PD', 'PowerPlant', 'Energy', 'Concrete',
-                     'GridStability', 'SuperConduct', 'CBM', 'Game']
+dataset_names = ['SB', 'BC', 'Phishing', # 'Cover'
+                     'Adult', 'Tic',
+                     'Aus', 'Monk-1', 'Monk-2', 'Bank']
 
 load_functions = OrderedDict()
 load_functions["SB"] = data.load_spambase_data
@@ -30,7 +31,7 @@ load_functions["Monk-1"] = data.load_monks1_data
 load_functions["Monk-2"] = data.load_monks2_data
 load_functions["Bank"] = data.load_bank_dataset
 
-dataset_names = ['BC']
+#dataset_names = ['Bank']
 
 for dataset_name in dataset_names:
     X, y = load_functions[dataset_name]()

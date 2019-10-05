@@ -7,13 +7,9 @@
 from sklearn.ensemble import RandomForestClassifier
 import numpy as np
 import sys
-from sklearn.model_selection import StratifiedShuffleSplit
-import KLR
 from sklearn.svm import SVC
-#from sklearn.linear_model import LogisticRegression as LR
 from sklearn.model_selection import GridSearchCV
-from sklearn.svm import LinearSVC
-from sklearn.calibration import CalibratedClassifierCV
+
 
 def computeConformityScores(predProb, calibTarget):
     nrCases, nrLabels = predProb.shape
