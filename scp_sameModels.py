@@ -14,7 +14,7 @@ import perf_measure as pm
 epsilon = 0.1
 iteration = 10
 nrSources = 3
-methods = ['svm', 'linear_svm', 'RF']
+methods = ['linear_svm']*nrSources
 
 dataset_names = ['SB', 'BC', 'Phishing', 'Cover', 'Adult', 'Tic',
                      'Aus', 'Monk-1', 'Monk-2', 'Bank']
@@ -31,7 +31,7 @@ load_functions["Monk-1"] = data.load_monks1_data
 load_functions["Monk-2"] = data.load_monks2_data
 load_functions["Bank"] = data.load_bank_dataset
 
-dataset_names = ['BC']
+#dataset_names = ['Cover']
 
 for dataset_name in dataset_names:
     X, y = load_functions[dataset_name]()

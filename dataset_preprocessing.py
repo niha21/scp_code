@@ -204,8 +204,8 @@ def load_covertype_dataset():
     y = np.array([x[-1] for x in data]).astype(np.int)
     y = y-1
     del data # free up the memory
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=1-(1875/len(X)), stratify=y)
-    # it is huge dataset, returning only slice of it
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=.97, stratify=y)
+    # it is a huge dataset, returning only slice of it
     return x_train, y_train
 
 
@@ -282,8 +282,6 @@ if __name__ == '__main__':
     #x, y = load_bank_dataset()
     #x, y = load_digit_data()
 
-    print(len(y[y==0]))
-    print(len(y[y == 1]))
-    print(y[1:100])
+    print(len(y))
 
 

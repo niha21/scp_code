@@ -23,7 +23,7 @@ def CCP(X, y, n_source = 3, method='linear_svm', path='filename'):
 
     for i in range(10):
         XX, X_test, yy, y_test \
-            = train_test_split(X, y, test_size=0.2)
+            = train_test_split(X, y, test_size=0.2, random_state=i)
 
         scaler = MinMaxScaler()
         scaler.fit(XX)
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     load_functions["Monk-2"] = data.load_monks2_data
     load_functions["Bank"] = data.load_bank_dataset
 
-    dataset_names = ['BC']
+    #dataset_names = ['Cover']
 
     for dataset_name in dataset_names:
         X, y = load_functions[dataset_name]()
