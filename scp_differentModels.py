@@ -8,15 +8,16 @@ import dataset_preprocessing as data
 from collections import OrderedDict
 from scp import synergyCP
 import os
+import numpy as np
 
+np.random.seed(123)
 
 epsilon = 0.1
 iteration = 10
 nrSources = 3
 methods = ['linear_svm', 'RF', 'svm']
 
-dataset_names = ['SB', 'BC', 'Phishing', # 'Cover'
-                     'Adult', 'Tic',
+dataset_names = ['SB', 'BC', 'Phishing', 'Cover', 'Adult', 'Tic',
                      'Aus', 'Monk-1', 'Monk-2', 'Bank']
 
 load_functions = OrderedDict()

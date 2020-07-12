@@ -66,7 +66,7 @@ def cv_SVC(X_train, y_train, calibData, testData):
     tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1, .1, 1e-2, 1e-3, 1e-4],
                          'C': [1, 10, 100]}
                         ]
-    clf = GridSearchCV(SVC(probability=True), tuned_parameters, cv=cv, iid=True)
+    clf = GridSearchCV(SVC(probability=True), tuned_parameters, cv=cv, n_jobs=-1)
     clf.fit(X_train, y_train)
     calibPredProb = clf.predict_proba(calibData)
     testPredProb = clf.predict_proba(testData)
@@ -86,7 +86,7 @@ def cv_SVC(X_train, y_train, calibData, testData):
 
 def linear_SVC(X_train, y_train, calibData, testData):
     tuned_parameters = [{'C': [1, 10, 100]}]
-    clf = GridSearchCV(SVC(probability=True, kernel='linear'), tuned_parameters, cv=cv, iid=True)
+    clf = GridSearchCV(SVC(probability=True, kernel='linear'), tuned_parameters, cv=cv, n_jobs=-1)
     clf.fit(X_train, y_train)
     calibPredProb = clf.predict_proba(calibData)
     testPredProb = clf.predict_proba(testData)

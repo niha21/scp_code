@@ -9,7 +9,10 @@ from collections import OrderedDict
 from scp import synergyCP
 import os
 import perf_measure as pm
+import numpy as np
 
+
+np.random.seed(123)
 
 epsilon = 0.1
 iteration = 10

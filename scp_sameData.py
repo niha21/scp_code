@@ -89,14 +89,14 @@ if __name__ == '__main__':
     import os
     import dataset_preprocessing as data
 
-
+    np.random.seed(123)
     epsilon = 0.1
     iteration = 10
     nrSources = 3
 
     methods = ["linear_svm", "RF", "svm"]
 
-    dataset_names = ['SB', 'BC', 'Phishing', 'Adult', 'Tic',
+    dataset_names = ['SB', 'BC', 'Phishing', 'Cover', 'Adult', 'Tic',
                      'Aus', 'Monk-1', 'Monk-2', 'Bank']
 
     load_functions = OrderedDict()
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     load_functions["Monk-2"] = data.load_monks2_data
     load_functions["Bank"] = data.load_bank_dataset
 
-    #dataset_names = ['Cover']
+    #dataset_names = ['BC']
 
     for dataset_name in dataset_names:
         X, y = load_functions[dataset_name]()
